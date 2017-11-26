@@ -34,29 +34,29 @@ public class GherkinStructureScanner implements StructureScanner{
         }else{            
             TokenHierarchy<GherkinTokenId> th = (TokenHierarchy<GherkinTokenId>) pr.getSnapshot().getTokenHierarchy();
             TokenSequence<GherkinTokenId> ts = th.tokenSequence(GherkinTokenId.getLanguage()); 
-            GherkingStructureItem feature = null;
-            GherkingStructureItem currentScenario = null;
+            GherkinStructureItem feature = null;
+            GherkinStructureItem currentScenario = null;
             while (ts.moveNext()) {
                 Token<GherkinTokenId> token = ts.token();
                 //printToken(token);
                 if (token.id().name().equals("FEATURE")) {                    
                     int start = token.offset(th);
-                    String titolo = getTitle(ts);
-                    feature = new GherkingStructureItem(start,start +1,titolo,GherkinCompletionNames.FEATURE);
+                    String title = getTitle(ts);
+                    feature = new GherkinStructureItem(start,start +1,title,GherkinCompletionNames.FEATURE);
                 }else if(feature !=null && token.id().name().equals("BACKGROUND")){
                     int start = token.offset(th);
-                    String titolo = getTitle(ts);
-                    currentScenario = new GherkingStructureItem(start,start +1,titolo,GherkinCompletionNames.BACKGROUND);
+                    String title = getTitle(ts);
+                    currentScenario = new GherkinStructureItem(start,start +1,title,GherkinCompletionNames.BACKGROUND);
                     feature.addChild(currentScenario);
                 }else if(feature !=null && token.id().name().equals("SCEN_OUT")){
                     int start = token.offset(th);
-                    String titolo = getTitle(ts);
-                    currentScenario = new GherkingStructureItem(start,start +1,titolo,GherkinCompletionNames.SCENOUT);
+                    String title = getTitle(ts);
+                    currentScenario = new GherkinStructureItem(start,start +1,title,GherkinCompletionNames.SCENOUT);
                     feature.addChild(currentScenario);
                 }else if(feature !=null && token.id().name().equals("SCENARIO")){
                     int start = token.offset(th);
-                    String titolo = getTitle(ts);
-                    currentScenario = new GherkingStructureItem(start,start +1,titolo,GherkinCompletionNames.SCENARIO);
+                    String title = getTitle(ts);
+                    currentScenario = new GherkinStructureItem(start,start +1,title,GherkinCompletionNames.SCENARIO);
                     feature.addChild(currentScenario);
                 }else if(feature !=null && currentScenario != null &&token.id().primaryCategory().equals("Stepkeyword")){
                     String text = token.text().toString();
@@ -75,8 +75,8 @@ public class GherkinStructureScanner implements StructureScanner{
                         continue;
                     }
                     int start = token.offset(th);
-                    String titolo = getTitle(ts);
-                    currentScenario.addChild(new GherkingStructureItem(start,start +1,titolo,type));
+                    String title = getTitle(ts);
+                    currentScenario.addChild(new GherkinStructureItem(start,start +1,title,type));
                 }
             }
             items.add(feature);
@@ -193,12 +193,12 @@ public class GherkinStructureScanner implements StructureScanner{
     }
 
     public static void printToken(Token token) {
-        System.out.println("\n\n### tok id:" + token.id());
-        System.out.println("### tok name:" + token.id().name());
-        System.out.println("### tok cat:" + token.id().primaryCategory());
-        System.out.println("### tok ordinal:" + token.id().ordinal());
-        System.out.println("### tok lenght:" + token.length());
-        System.out.println("### tok lenght:" + token.text());
+        System.out.println("\n\n### token id:" + token.id());
+        System.out.println("### token name:" + token.id().name());
+        System.out.println("### token category:" + token.id().primaryCategory());
+        System.out.println("### token ordinal:" + token.id().ordinal());
+        System.out.println("### token length:" + token.length());
+        System.out.println("### token text:" + token.text());
     }
     
     @Override

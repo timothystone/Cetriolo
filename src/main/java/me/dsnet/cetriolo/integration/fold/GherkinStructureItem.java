@@ -19,43 +19,43 @@ import org.netbeans.modules.csl.api.StructureItem;
  *
  * @author SessonaD
  */
-public class GherkingStructureItem implements StructureItem {
+public class GherkinStructureItem implements StructureItem {
 
-    int start=0;
-    int end=0;
+    int start = 0;
+    int end = 0;
     String title;
     GherkinCompletionNames keyword;
     List<StructureItem> children;
     public static final String FONT_GRAY_COLOR = "<font color=\"#999999\">";
-    public static final String CLOSE_FONT      = "</font>";
-    public static final int TITLE_LENGHT       = 25;
+    public static final String CLOSE_FONT = "</font>";
+    public static final int TITLE_LENGTH = 25;
 
-    public GherkingStructureItem(int start, int end,String title, GherkinCompletionNames keyword) {
-        this.keyword=keyword;
+    public GherkinStructureItem(int start, int end, String title, GherkinCompletionNames keyword) {
+        this.keyword = keyword;
         this.start = start;
-        this.end=end;
-        this.title=title;
-        children = new ArrayList<StructureItem>();
+        this.end = end;
+        this.title = title;
+        children = new ArrayList<>();
     }
-    
+
     @Override
     public String getHtml(HtmlFormatter hf) {
-        hf.reset();        
+        hf.reset();
         String nodeValue = getName();
-        if (nodeValue.length() > TITLE_LENGHT) {
-            nodeValue = nodeValue.substring(0, TITLE_LENGHT) + "...";
+        if (nodeValue.length() > TITLE_LENGTH) {
+            nodeValue = nodeValue.substring(0, TITLE_LENGTH) + "...";
         }
         hf.appendText(nodeValue);
-        hf.appendHtml( " : " + FONT_GRAY_COLOR);
+        hf.appendHtml(" : " + FONT_GRAY_COLOR);
         hf.appendText(keyword.getWord());
         hf.appendHtml(CLOSE_FONT);
         return hf.getText();
     }
-    
-    public void addChild(StructureItem p){
+
+    public void addChild(StructureItem p) {
         children.add(p);
     }
-    
+
     @Override
     public String getName() {
         return title;
@@ -105,5 +105,5 @@ public class GherkingStructureItem implements StructureItem {
     public ImageIcon getCustomIcon() {
         return new javax.swing.ImageIcon(keyword.getIcon(16));
     }
-    
+
 }
